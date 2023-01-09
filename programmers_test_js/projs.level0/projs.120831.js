@@ -2,9 +2,10 @@
 
 function solution(n) {
   var answer = 0;
-  for (let index = 0; index < n - 1; index++) {
+  for (let index = 0; index < n + 1; index++) {
     if (index % 2 == 0) {
-      answer = answer + n;
+      //짝수인지 검사->짝수면 그 값을 더함
+      answer = answer + index;
       console.log(answer);
     }
   }
