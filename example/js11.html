@@ -18,7 +18,7 @@
   //promise  보통 통신할때 사용(이미지나 데이터 가져오는것 등. 특히 용량이 클 때) 또는 입출력
   //마법택배상자-값이 들어오기 전까지 안열림, 값이 들어오면 열 수 있음
   //매개변수로 executor(resolve, reject)를 넣어줘야함
-  //resolve나 reject가 실행됨(둘중하나)
+  //resolve(성공시)나 reject(실패시)가 실행됨(둘중하나)
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve("택배도착");

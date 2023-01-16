@@ -19,17 +19,17 @@
 
   //continue
   //while, for문에서 continue를 선언하면 다음 반복으로 넘어간다. 이다음 작업을 스킵하고 싶을때 주로 사용
-  //array.filter ->원래 잇던 배열에서 필터링 할때
+  //array.filter ->원래 있던 배열에서 필터링 할때
   //[1,2,3]->[] 빈배열로 push
   //조건이 홀수인 것만 필터링, 짝수일 경우 continue, 홀수일 경우 push
   const continueFunc = () => {
     let count = 0;
     while (count < 100) {
-      console.log(`${count} continue테스트`);
       count = count + 1;
       if (count == 98) {
         continue;
       }
+      console.log(`${count} continue테스트`);
     }
     console.log(`continue빠져나옴`);
   };

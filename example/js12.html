@@ -20,7 +20,7 @@
       console.log(response);
     });
   };
-  //noAsyncFunc(); //pro2 완료가 pro1 완료보다 먼저나옴 실행순서에 상관없이 먼저끝난애가 먼저 실행됨
+  //noAsyncFunc(); //pro2 완료가 pro1 완료보다 먼저나옴 실행순서에 상관없이 먼저끝난애가 먼저 완료됨
 
   //2.async 있는 함수에서 promise
   const asyncFunc = async () => {
@@ -34,18 +34,13 @@
         resolve("pro2 완료");
       }, 1000);
     });
-    pro1.then((response) => {
-      //console.log(response);
-    });
-    pro2.then((response) => {
-      //console.log(response);
-    });
+
     //await를 걸면 promise가 순서대로 실행됨
     const res1 = await pro1; //결과값을 받을 수 있음. 2초 뒤에 풀림
     console.log(res1);
     const res2 = await pro2; //이미 대기가 끝나있음. pro1이 실행되는걸 기다렸다가 바로 튀어나옴
     console.log(res2);
   };
-  asyncFunc();
   //async 함수는 promise를 리턴한다.promise는 then으로 끝나야하는 등 성능낭비가 되므로 비동기를 할 필요가 없는경우 일반함수 써야함
+  asyncFunc();
 </script>
