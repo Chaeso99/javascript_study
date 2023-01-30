@@ -29,8 +29,8 @@
       href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
     />
 
-    <!-- 커스텀 CSS -->
-    <link rel="stylesheet" href="./css/style.css" />
+    <!-- 커스텀 CSS
+    <link rel="stylesheet" href="./css/style.css" /> -->
 
     <!-- favicon -->
     <link rel="icon" href="./img/jaylog.ico" type="image/x-icon" />
@@ -42,6 +42,7 @@
     <!-- Start your project here-->
     <section style="background-color: #508bfc; min-height: 100vh">
       <div class="container py-5 h-100">
+        <!--py는 y축패딩이라는 뜻, h는 높이-->
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <div class="card shadow-2-strong" style="border-radius: 1rem">
@@ -127,12 +128,64 @@
     // 회원가입 버튼을 누르면 실행되는 함수
     const requestJoin = () => {
       // 서버와 통신하기 전에 입력값 검증(유효성 체크)
+      if (!validateFields()) {
+        return;
+      }
+
       // 유저 정보가 담긴 태그를 id로 가져옴
-      // 유저 정보를 객체로 만듬
+      const idEl = document.getElementById("id"); //아이디
+      const pwEl = document.getElementById("pw"); //비밀번호
+      const simpleDescEl = document.getElementById("simpleDesc"); //한줄소개
+
+      //프론트엔드 데이터
+      const userData = {
+        id: idEl.value,
+        password: pwEl.value,
+        simpleDesc: simpleDescEl.value,
+      };
+
+      //서버로 넘어감(프론트 영역 아님)
+      //console.log(localStorage.getItem("userList")); //DB가 없으므로 null 나옴
+      if (localStorage.getItem("userList") == null) {
+        localStorage.setItem("userList", JSON.stringify([])); //빈 배열을 string화 해서 userList에 넣음
+      }
+
+      //서버 유효성 검사(생략)
+
       // 로컬 스토리지에서 유저 리스트를 가져옴
+      const userList = JSON.parse(localStorage.getItem("userList")); //로컬스토리지에 들어있는건 String이라서 배열형태로 parse해야함
+
+      // 유저 정보를 객체로 만듬 - 백엔드 데이터, idx와 id는 중복되면 안됨- idx는 어짜피 중복 안되니까 id가 중복되는지 검사해야함
+      const newUser = {
+        idx: userList.length, //유저의 고유 번호
+        id: userData.id,
+        password: userData.password,
+        simpleDesc: userData.simpleDesc,
+        profileImg:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+        createDate: new Date().toJSON(),
+        updateDate: null,
+        deleteDate: null,
+      };
+
+      //데이터베이스에서 유저확인
       // 유저의 아이디가 이미 사용 중인지 확인
+      if (userList.find((user) => user.id === newUser.id)) {
+        //서버에서 프론트로 메세지 보냄
+        alert("이미 존재하는 아이디 입니다.");
+        //프론트에서 포커싱
+        idEl.focus();
+        return;
+      }
+
       // 유저 리스트에 유저 정보를 추가
+      userList.push(newUser); //리스트에 저장
+      localStorage.setItem("userList", JSON.stringify(userList)); //로컬스토리지 DB에 저장
+
       // 회원 가입 완료 시 로그인 페이지로 이동
+      alert("회원가입이 완료되었습니다.");
+      //location.href = "./login.html";
+      location.replace("./login.html");
     };
 
     // 유효성 검사 ( 아이디, 비밀번호 등 내용이 비어있는지 확인 )
@@ -164,12 +217,9 @@
       //비밀번호와 비번확인 같은지 확인
       if (pwEl.value != pw2El.value) {
         alert("비밀번호와 비번확인이 다릅니다.");
-        pwEl.remove();
-        pw2El.remove();
-        pwEl.focus();
+        pw2El.focus();
         return false;
       }
-
       return true;
     };
 
